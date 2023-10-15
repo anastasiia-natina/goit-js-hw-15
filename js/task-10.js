@@ -1,32 +1,37 @@
-function getRandomHexColor() {
-      return `#${Math.floor(Math.random() * 16777215)
-        .toString(16)
-        .padStart(6, '0')}`;
+const input = document.querySelector('#controls input');
+  const createButton = document.querySelector('[data-create]');
+  const destroyButton = document.querySelector('[data-destroy]');
+  const boxesContainer = document.querySelector('#boxes');
+
+  createButton.addEventListener('click', createBoxes);
+  destroyButton.addEventListener('click', destroyBoxes);
+
+  function createBoxes() {
+    const amount = input.value;
+    const boxSize = 30;
+    let html = '';
+
+    for (let i = 0; i < amount; i++) {
+      const box = document.createElement('div');
+      const size = boxSize + i * 10;
+      const bgColor = getRandomHexColor();
+
+      box.style.width = `${size}px`;
+      box.style.height = `${size}px`;
+      box.style.backgroundColor = bgColor;
+
+      html += box.outerHTML;
     }
 
-    const controls = document.querySelector('#controls');
-    const input = controls.querySelector('input');
-    const createButton = controls.querySelector('[data-create]');
-    const destroyButton = controls.querySelector('[data-destroy]');
+    boxesContainer.innerHTML = html;
+  }
 
-    const boxesContainer = document.querySelector('#boxes');
+  function destroyBoxes() {
+    boxesContainer.innerHTML = '';
+  }
 
-    createButton.addEventListener('click', createBoxes);
-    destroyButton.addEventListener('click', destroyBoxes);
-
-    function createBoxes() {
-      const amount = Number(input.value);
-
-      for (let i = 0; i < amount; i++) {
-        const box = document.createElement('div');
-        box.classList.add('box');
-        box.style.backgroundColor = getRandomHexColor();
-        box.style.width = 30 + i * 10 + 'px';
-        box.style.height = 30 + i * 10 + 'px';
-        boxesContainer.appendChild(box);
-      }
-    }
-
-    function destroyBoxes() {
-      boxesContainer.innerHTML = '';
-    }
+  function getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0')}`;
+  }
